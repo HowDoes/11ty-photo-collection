@@ -7,7 +7,7 @@ eleventyExcludeFromCollections: true
   <li>
   <h3><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
 
-  << LiquidShortcode that returns a picture element with different image sizes >>
+  {% image post.data.image, post.data.imagealt, undefined, post.page %}
   
   </li>
 {% endfor %}
