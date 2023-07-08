@@ -12,7 +12,7 @@ const Image = require('@11ty/eleventy-img');
 
 // ELEVENTY IMG
   // https://www.11ty.dev/docs/plugins/image/#asynchronous-shortcode
-  async function imageShortcode(src, alt, sizes = "100vw") {
+  async function imageShortcode(src, alt, sizes = "100vw", page = this.page) {
     if(alt === undefined) {
       // You bet we throw an error on missing alt (alt="" works okay)
       throw new Error(`Missing \`alt\` on responsiveimage from: ${src}`);
@@ -21,17 +21,17 @@ const Image = require('@11ty/eleventy-img');
     /**
      * By default the eleventy image plugin assumes a central folder of images.
      * I store images in the same directory where they're used.
-     * this.page contains the current page context, so we can use
+     * page contains the current page context, so we can use
      * path.dirname to get the current image context
      */
-    let imageSrc = `${path.dirname(this.page.inputPath)}/${src}`;
+    let imageSrc = `${path.dirname(page.inputPath)}/${src}`;
     // let imageSrc = src;
 
     let metadata = await Image(imageSrc, {
       widths: [400, 600, 800, 1200, 1500, 2400],
       formats: ['avif', null],
-      outputDir: path.dirname(this.page.outputPath),
-      urlPath: this.page.url,
+      outputDir: path.dirname(page.outputPath),
+      urlPath: page.url,
       hashLength: 12,
       filenameFormat: function (id, src, width, format, options) {
         const extension = path.extname(src);
